@@ -1,13 +1,10 @@
 {
   "name": "Justice League - Student Edition",
-  "description": "Premium interactive learning platform for legal excellence and virtual courtroom mastery.",
+  "description": "Premium offline-first learning platform for legal excellence in Tamil Nadu.",
   "short_name": "JusticeLeague",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#fbbf24",
-  "requestFramePermissions": [
-    "camera",
-    "microphone"
-  ]
+  "requestFramePermissions": []
 }

@@ -73,7 +73,7 @@ export const Quiz: React.FC = () => {
             <Zap className="w-12 h-12 text-gold" />
           </div>
           <h1 className="text-4xl font-serif font-bold text-white tracking-tight">Trials of Wisdom</h1>
-          <p className="text-[10px] font-black text-gold uppercase tracking-[0.4em] mt-2 opacity-60">Verification Sequence Ready</p>
+          <p className="text-[10px] font-black text-gold uppercase tracking-[0.4em] mt-2 opacity-60">Knowledge Verification Protocol</p>
         </div>
         <div className="grid grid-cols-1 gap-4">
           {['Constitutional Law', 'Evidence Act', 'Contract Law', 'Criminal Procedure'].map((t) => (
@@ -88,7 +88,7 @@ export const Quiz: React.FC = () => {
                 </div>
                 <div className="text-left">
                   <span className="font-bold text-white text-lg block tracking-tight">{t}</span>
-                  <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">5 Assessment Units</span>
+                  <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Assessment Series A</span>
                 </div>
               </div>
               <ChevronRight className="text-gold opacity-50" />
@@ -107,22 +107,23 @@ export const Quiz: React.FC = () => {
           <div className="w-24 h-24 border-4 border-gold border-t-transparent rounded-full animate-spin absolute top-0"></div>
           <Rocket className="w-10 h-10 text-gold absolute top-7 left-7 animate-bounce" />
         </div>
-        <p className="text-gold font-black uppercase tracking-[0.3em] text-sm">Synchronizing Justice Archive...</p>
+        <p className="text-gold font-black uppercase tracking-[0.3em] text-sm">Synchronizing Data Modules...</p>
       </div>
     );
   }
 
   if (showResults) {
-    const percentage = (score / (questions.length * 10)) * 100;
+    const totalPossible = questions.length * 10;
+    const percentage = (score / totalPossible) * 100;
     const rank = percentage >= 80 ? 'SUPREME COUNSEL' : percentage >= 50 ? 'SENIOR ADVOCATE' : 'JUNIOR COUNSEL';
     
     return (
       <div className="p-8 text-center flex flex-col items-center justify-center min-h-[85vh] space-y-12 animate-in zoom-in fade-in duration-700">
         <div className="relative group">
-          <div className="absolute -inset-10 bg-gold/10 rounded-full blur-[80px] animate-pulse"></div>
-          <div className="h-64 w-64 rounded-[4rem] bg-[#1e293b] border-4 border-gold/30 flex flex-col items-center justify-center shadow-3xl relative">
+          <div className="absolute -inset-8 bg-gold/10 rounded-full blur-[80px] group-hover:bg-gold/20 transition-all animate-pulse"></div>
+          <div className="h-64 w-64 rounded-[4rem] bg-[#1e293b] border-4 border-gold/30 flex flex-col items-center justify-center shadow-3xl relative rotate-3">
             <Trophy className="absolute -top-10 -right-10 w-20 h-20 text-gold drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]" />
-            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-gold text-black px-8 py-3 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-2xl border-4 border-[#0f172a]">
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-gold text-black px-8 py-3 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-2xl whitespace-nowrap border-4 border-[#0f172a]">
               {rank}
             </div>
             <p className="text-[12px] text-gold font-black uppercase tracking-[0.4em] mb-2 opacity-50">Trial Score</p>
@@ -133,13 +134,13 @@ export const Quiz: React.FC = () => {
         <div className="space-y-6 w-full max-w-xs">
           <h2 className="text-4xl font-serif font-bold text-white">Trial Accomplished</h2>
           <div className="grid grid-cols-2 gap-4">
-            <div className="glass p-4 rounded-3xl border border-white/5">
+            <div className="glass p-4 rounded-3xl border border-white/5 text-center">
                <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Accuracy</p>
                <p className="text-2xl font-black text-gold">{percentage}%</p>
             </div>
-            <div className="glass p-4 rounded-3xl border border-white/5">
-               <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">XP Gain</p>
-               <p className="text-2xl font-black text-green-400">+{score}</p>
+            <div className="glass p-4 rounded-3xl border border-white/5 text-center">
+               <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Correct</p>
+               <p className="text-2xl font-black text-green-400">{score/10}/{questions.length}</p>
             </div>
           </div>
         </div>
@@ -175,9 +176,9 @@ export const Quiz: React.FC = () => {
            <button onClick={() => setIsPaused(!isPaused)} className={`p-4 rounded-2xl border transition-all ${isPaused ? 'bg-gold border-gold text-black shadow-3xl scale-110' : 'bg-white/5 border-white/10 text-slate-400'}`}>
              {isPaused ? <Play className="w-5 h-5 fill-current" /> : <Pause className="w-5 h-5" />}
            </button>
-           <div className={`flex flex-col items-center justify-center w-16 h-16 rounded-2xl border ${timeLeft < 15 && !isPaused ? 'bg-red-500/20 border-red-500/40 text-red-500 animate-pulse' : 'bg-white/5 border-white/10 text-gold'}`}>
+           <div className={`flex flex-col items-center justify-center w-16 h-16 rounded-2xl border ${timeLeft < 15 && !isPaused ? 'bg-red-500/20 border-red-500/40 text-red-500 shadow-xl' : 'bg-white/5 border-white/10 text-gold'}`}>
              <Timer className="w-4 h-4 mb-0.5" />
-             <span className="font-black text-xs tabular-nums">{timeLeft}S</span>
+             <span className="font-black text-xs tabular-nums tracking-tighter">{timeLeft}S</span>
            </div>
         </div>
       </div>
@@ -185,9 +186,9 @@ export const Quiz: React.FC = () => {
       <div className="relative">
         {isPaused && (
           <div className="absolute inset-0 z-50 glass-dark rounded-[3rem] flex flex-col items-center justify-center border border-white/10">
-            <Pause className="w-12 h-12 text-gold mb-4" />
+            <Pause className="w-12 h-12 text-gold mb-4 shadow-3xl" />
             <p className="text-gold font-black uppercase tracking-[0.5em] text-xs">Neural Sync Paused</p>
-            <button onClick={() => setIsPaused(false)} className="mt-8 px-10 py-4 bg-gold text-black rounded-3xl text-xs font-black uppercase tracking-[0.2em] shadow-3xl">
+            <button onClick={() => setIsPaused(false)} className="mt-8 px-10 py-4 bg-gold text-black rounded-3xl text-xs font-black uppercase tracking-[0.2em] shadow-3xl border-2 border-white/20">
               Resume Trial
             </button>
           </div>
@@ -208,17 +209,17 @@ export const Quiz: React.FC = () => {
             key={i}
             onClick={() => handleAnswer(i)}
             disabled={isAnswered || isPaused}
-            className={`w-full p-6 rounded-3xl text-left text-[13px] font-bold transition-all border flex justify-between items-center ${
+            className={`w-full p-6 rounded-3xl text-left text-[13px] font-bold transition-all border flex justify-between items-center shadow-xl transform active:scale-[0.97] ${
               isAnswered
                 ? i === currentQ.correctAnswer
                   ? 'bg-green-500/20 border-green-500/50 text-green-400'
                   : i === selectedOption
                   ? 'bg-red-500/20 border-red-500/50 text-red-400'
                   : 'bg-white/5 border-white/5 text-slate-700 opacity-50'
-                : 'bg-white/5 border-white/10 hover:border-gold/50 text-slate-400'
+                : 'bg-white/5 border-white/10 hover:border-gold/50 text-slate-400 hover:text-white hover:bg-white/10'
             }`}
           >
-            <span className="tracking-tight pr-6">{opt}</span>
+            <span className="tracking-tight leading-relaxed pr-6">{opt}</span>
             <div className="shrink-0">
               {isAnswered && i === currentQ.correctAnswer && <CheckCircle className="w-5 h-5" />}
               {isAnswered && i === selectedOption && i !== currentQ.correctAnswer && <XCircle className="w-5 h-5" />}
@@ -230,20 +231,20 @@ export const Quiz: React.FC = () => {
 
       {isAnswered && (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-12">
-          <div className="glass p-10 rounded-[3rem] border border-white/10 relative shadow-2xl">
+          <div className="glass p-10 rounded-[3rem] border border-white/10 relative shadow-2xl overflow-hidden">
              <div className="absolute -top-3 left-10 bg-gold px-6 py-1.5 rounded-full text-[9px] font-black text-black uppercase tracking-[0.3em] shadow-xl">
                Legal Rationale
              </div>
             <p className="text-[13px] text-slate-300 leading-relaxed font-medium mb-8 mt-4">{currentQ.explanation}</p>
             {currentQ.tamilExplanation && (
-              <p className="text-[12px] text-gold/90 font-bold italic border-t border-white/10 pt-6">
+              <p className="text-[12px] text-gold/90 font-bold italic border-t border-white/10 pt-6 leading-relaxed">
                 {currentQ.tamilExplanation}
               </p>
             )}
           </div>
-          <button onClick={nextQuestion} className="w-full bg-white text-slate-900 p-7 rounded-[3rem] font-black shadow-3xl flex items-center justify-center space-x-4 uppercase tracking-[0.3em] text-xs hover:bg-gold transition-all">
+          <button onClick={nextQuestion} className="w-full bg-white text-slate-900 p-7 rounded-[3rem] font-black shadow-3xl flex items-center justify-center space-x-4 uppercase tracking-[0.3em] text-xs hover:bg-gold transition-all active:scale-95 group">
             <span>{currentIndex === questions.length - 1 ? 'Evaluate Results' : 'Next Question'}</span>
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </button>
         </div>
       )}
