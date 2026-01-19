@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { Timer, CheckCircle, XCircle, ChevronRight, Zap, Shield, Pause, Play, Trophy, Rocket, RefreshCcw } from 'lucide-react';
+import { Timer, CheckCircle, XCircle, ChevronRight, Zap, Shield, Pause, Play, Trophy, Rocket, RefreshCcw, GraduationCap } from 'lucide-react';
 import { generateLegalQuiz } from '../services/gemini';
 import { QuizQuestion } from '../types';
+import { OFFLINE_QUIZ } from '../data/localContent';
 
 interface QuizProps {
   onComplete: (score: number) => void;
@@ -20,11 +21,26 @@ export const Quiz: React.FC<QuizProps> = ({ onComplete }) => {
   const [topic, setTopic] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
 
+  // Function to shuffle array and pick N items
+  const getShuffledSet = (arr: QuizQuestion[], count: number = 5) => {
+    return [...arr].sort(() => 0.5 - Math.random()).slice(0, count);
+  };
+
   const startQuiz = async (selectedTopic: string) => {
     setLoading(true);
     setTopic(selectedTopic);
     try {
-      const q = await generateLegalQuiz(selectedTopic);
+      let q: QuizQuestion[] = [];
+      if (navigator.onLine) {
+        // Try online generation first
+        q = await generateLegalQuiz(selectedTopic);
+      }
+      
+      // Fallback or combine with offline pool for variety
+      if (q.length === 0 && OFFLINE_QUIZ[selectedTopic]) {
+        q = getShuffledSet(OFFLINE_QUIZ[selectedTopic], 10); // Pick 10 for more depth
+      }
+
       setQuestions(q);
       setCurrentIndex(0);
       setScore(0);
@@ -34,6 +50,9 @@ export const Quiz: React.FC<QuizProps> = ({ onComplete }) => {
       setIsPaused(false);
     } catch (e) {
       console.error(e);
+      if (OFFLINE_QUIZ[selectedTopic]) {
+        setQuestions(getShuffledSet(OFFLINE_QUIZ[selectedTopic], 10));
+      }
     } finally {
       setLoading(false);
     }
@@ -43,7 +62,7 @@ export const Quiz: React.FC<QuizProps> = ({ onComplete }) => {
     if (questions.length > 0 && timeLeft > 0 && !showResults && !isAnswered && !isPaused) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (timeLeft === 0 && !isAnswered) {
+    } else if (timeLeft === 0 && !isAnswered && questions.length > 0) {
       handleAnswer(-1);
     }
   }, [timeLeft, questions, showResults, isAnswered, isPaused]);
@@ -75,30 +94,37 @@ export const Quiz: React.FC<QuizProps> = ({ onComplete }) => {
       <div className="p-8 space-y-8 animate-in fade-in duration-500">
         <div className="text-center">
           <div className="w-24 h-24 bg-gold/10 border border-gold/20 rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-2xl relative">
-            <Zap className="w-12 h-12 text-gold" />
+            <GraduationCap className="w-12 h-12 text-gold" />
           </div>
-          <h1 className="text-4xl font-serif font-bold text-white tracking-tight">Trials of Wisdom</h1>
-          <p className="text-[10px] font-black text-gold uppercase tracking-[0.4em] mt-2 opacity-60">Knowledge Verification Protocol</p>
+          <h1 className="text-4xl font-serif font-bold text-white tracking-tight">Bar Exam Trials</h1>
+          <p className="text-[10px] font-black text-gold uppercase tracking-[0.4em] mt-2 opacity-60">AIBE Prep Protocol • Season 1</p>
         </div>
         <div className="grid grid-cols-1 gap-4">
-          {['Constitutional Law', 'Evidence Act', 'Contract Law', 'Criminal Procedure'].map((t) => (
+          {Object.keys(OFFLINE_QUIZ).map((t) => (
             <button
               key={t}
               onClick={() => startQuiz(t)}
-              className="p-6 glass border border-white/5 rounded-[2rem] flex items-center justify-between hover:bg-white/10 transition-all active:scale-95"
+              className="p-6 glass border border-white/5 rounded-[2rem] flex items-center justify-between hover:bg-white/10 transition-all active:scale-95 group"
             >
               <div className="flex items-center space-x-5">
-                <div className="p-4 bg-white/5 border border-white/10 text-gold rounded-2xl">
+                <div className="p-4 bg-white/5 border border-white/10 text-gold rounded-2xl group-hover:bg-gold group-hover:text-black transition-colors">
                   <Shield className="w-6 h-6" />
                 </div>
                 <div className="text-left">
                   <span className="font-bold text-white text-lg block tracking-tight">{t}</span>
-                  <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Assessment Series A</span>
+                  <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">
+                    {OFFLINE_QUIZ[t].length}+ Local Trials • Day 1
+                  </span>
                 </div>
               </div>
-              <ChevronRight className="text-gold opacity-50" />
+              <ChevronRight className="text-gold opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
             </button>
           ))}
+        </div>
+        <div className="p-6 rounded-[2rem] bg-gold/5 border border-gold/10 text-center">
+            <p className="text-[10px] text-gold font-bold uppercase tracking-widest leading-relaxed">
+              New questions are synchronized daily. <br/>Complete all trials to achieve 'Supreme Counsel' status.
+            </p>
         </div>
       </div>
     );
@@ -112,7 +138,7 @@ export const Quiz: React.FC<QuizProps> = ({ onComplete }) => {
           <div className="w-24 h-24 border-4 border-gold border-t-transparent rounded-full animate-spin absolute top-0"></div>
           <Rocket className="w-10 h-10 text-gold absolute top-7 left-7 animate-bounce" />
         </div>
-        <p className="text-gold font-black uppercase tracking-[0.3em] text-sm">Synchronizing Data Modules...</p>
+        <p className="text-gold font-black uppercase tracking-[0.3em] text-sm">Compiling Legal Database...</p>
       </div>
     );
   }
@@ -131,7 +157,7 @@ export const Quiz: React.FC<QuizProps> = ({ onComplete }) => {
             <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-gold text-black px-8 py-3 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-2xl whitespace-nowrap border-4 border-[#0f172a]">
               {rank}
             </div>
-            <p className="text-[12px] text-gold font-black uppercase tracking-[0.4em] mb-2 opacity-50">Trial Score</p>
+            <p className="text-[12px] text-gold font-black uppercase tracking-[0.4em] mb-2 opacity-50">Trial Performance</p>
             <p className="text-8xl font-black text-white tracking-tighter">{score}</p>
           </div>
         </div>
@@ -202,7 +228,7 @@ export const Quiz: React.FC<QuizProps> = ({ onComplete }) => {
         <div className={`glass p-10 rounded-[3rem] shadow-2xl transition-all duration-500 ${isPaused ? 'blur-2xl opacity-10 pointer-events-none' : 'opacity-100'}`}>
           <div className="flex items-center space-x-3 mb-6">
             <div className="h-1 w-6 bg-gold rounded-full"></div>
-            <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em]">Module Investigation</span>
+            <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em]">{currentQ.lawSection || 'Module Investigation'}</span>
           </div>
           <h3 className="text-xl font-bold text-white leading-relaxed tracking-tight">{currentQ.question}</h3>
         </div>
