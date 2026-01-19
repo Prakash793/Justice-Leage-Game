@@ -121,40 +121,39 @@ const App: React.FC = () => {
             <div className="w-44 h-44 mx-auto mb-6 relative group flex items-center justify-center">
               <BrandLogo className="w-full h-full relative z-10 drop-shadow-[0_20px_40px_rgba(251,191,36,0.3)] transform group-hover:scale-105 transition-transform duration-700" />
             </div>
-            {/* JUSTICE LEAGUE text in hardcoded CAPS and BOLD with tighter tracking */}
-            <h1 className="text-4xl font-black text-white mb-1 uppercase tracking-tighter">JUSTICE LEAGUE</h1>
-            <p className="text-gold text-[10px] font-black uppercase tracking-mega opacity-90">Future Counsel • Tamil Nadu</p>
+            <h1 className="text-4xl font-black text-white mb-1 tracking-tight">Justice League</h1>
+            <p className="text-gold text-[10px] font-bold uppercase tracking-[0.2em] opacity-80">Future Counsel • Tamil Nadu</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="glass p-10 rounded-[2.5rem] shadow-3xl space-y-6 border-white/10">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gold uppercase tracking-mega ml-3">NAME:</label>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-3">Full Name</label>
                 <input
                   type="text"
                   required
                   value={user.name}
                   onChange={(e) => setUser({...user, name: e.target.value})}
-                  placeholder="E.G. ADV. RAMANUJAM"
-                  className="w-full px-6 py-4 bg-slate-900/50 border-2 border-white/10 rounded-2xl focus:border-gold focus:outline-none transition-all text-white placeholder:text-slate-600 font-black text-sm uppercase tracking-tight"
+                  placeholder="e.g. Adv. Ramanujam"
+                  className="w-full px-6 py-4 bg-slate-900/50 border border-white/10 rounded-2xl focus:border-gold focus:outline-none transition-all text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gold uppercase tracking-mega ml-3">EMAIL:</label>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-3">Email Address</label>
                 <input
                   type="email"
                   required
                   value={user.email}
                   onChange={(e) => setUser({...user, email: e.target.value})}
-                  placeholder="COUNSEL@TN-BAR.COM"
-                  className="w-full px-6 py-4 bg-slate-900/50 border-2 border-white/10 rounded-2xl focus:border-gold focus:outline-none transition-all text-white placeholder:text-slate-600 font-black text-sm uppercase tracking-tight"
+                  placeholder="counsel@tn-bar.com"
+                  className="w-full px-6 py-4 bg-slate-900/50 border border-white/10 rounded-2xl focus:border-gold focus:outline-none transition-all text-white"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full h-16 btn-gold rounded-[1.5rem] shadow-3xl active:scale-95 transition-all transform uppercase flex items-center justify-center space-x-3 shine-effect mt-2"
+                className="w-full h-16 btn-gold rounded-[1.5rem] shadow-xl active:scale-95 transition-all transform flex items-center justify-center space-x-3 shine-effect mt-2"
               >
-                <span className="text-sm font-black">ENTER THE LEAGUE</span>
+                <span className="text-sm font-bold uppercase tracking-wider">Enter the League</span>
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
@@ -174,11 +173,11 @@ const App: React.FC = () => {
                 <BrandLogo className="w-full h-full relative z-10" />
              </div>
              <div className="space-y-4">
-                <h2 className="text-gold font-black uppercase tracking-mega text-[10px] flex items-center justify-center">
+                <h2 className="text-gold font-bold uppercase tracking-[0.2em] text-[10px] flex items-center justify-center">
                   <ShieldCheck className="w-5 h-5 mr-2" />
-                  CREDENTIALS VERIFIED
+                  Credentials Verified
                 </h2>
-                <h1 className="text-4xl font-black text-white leading-tight uppercase tracking-tighter">WELCOME BACK,<br/>COUNSEL {user.name}</h1>
+                <h1 className="text-4xl font-bold text-white leading-tight">Welcome Back,<br/>Counsel {user.name}</h1>
              </div>
           </div>
           
@@ -187,7 +186,7 @@ const App: React.FC = () => {
             className="w-full h-18 btn-gold rounded-[1.8rem] shadow-3xl active:scale-95 transition-all transform flex items-center justify-center space-x-4 shine-effect"
           >
             <Play className="w-6 h-6 fill-current" />
-            <span className="text-sm font-black">START TRAINING</span>
+            <span className="text-sm font-bold uppercase tracking-widest">Start Training</span>
           </button>
         </div>
       </div>
@@ -202,27 +201,27 @@ const App: React.FC = () => {
             <BrandLogo />
           </div>
           <div>
-            <h2 className="text-[9px] font-black uppercase tracking-mega text-gold/80">
-              {activeTab === 'dashboard' ? 'STATUS' : activeTab === 'court' ? 'ARENA' : 'TRIALS'}
+            <h2 className="text-[10px] font-bold uppercase tracking-wider text-gold/80">
+              {activeTab === 'dashboard' ? 'Status' : activeTab === 'court' ? 'Arena' : 'Trials'}
             </h2>
             {isOffline && (
               <div className="flex items-center space-x-1 mt-0.5">
                 <WifiOff className="w-2.5 h-2.5 text-red-500" />
-                <span className="text-[7px] font-black text-red-500 uppercase tracking-mega">OFFLINE NODE</span>
+                <span className="text-[8px] font-bold text-red-500">Offline</span>
               </div>
             )}
           </div>
         </div>
         <div className="flex items-center space-x-3">
           <div className="text-right hidden xs:block">
-            <p className="text-[8px] font-black text-gold uppercase tracking-mega leading-none mb-1">{user.rank}</p>
-            <p className="text-xs font-black leading-none text-white truncate max-w-[120px] uppercase tracking-tighter">{user.name}</p>
+            <p className="text-[8px] font-bold text-gold uppercase tracking-wider leading-none mb-1">{user.rank}</p>
+            <p className="text-xs font-bold leading-none text-white truncate max-w-[120px]">{user.name}</p>
           </div>
-          <div className="h-9 w-9 rounded-xl bg-gold/20 border-2 border-gold/40 flex items-center justify-center overflow-hidden shadow-lg">
+          <div className="h-9 w-9 rounded-xl bg-gold/20 border border-gold/40 flex items-center justify-center overflow-hidden">
             {user.profileImage ? (
               <img src={user.profileImage} alt="User" className="w-full h-full object-cover" />
             ) : (
-              <span className="font-black text-gold text-base">{user.name.charAt(0).toUpperCase()}</span>
+              <span className="font-bold text-gold text-base">{user.name.charAt(0).toUpperCase()}</span>
             )}
           </div>
         </div>
@@ -238,19 +237,19 @@ const App: React.FC = () => {
         <nav className="glass p-3.5 rounded-[3rem] flex justify-between items-center shadow-3xl border-2 border-white/10 backdrop-blur-3xl">
           <button onClick={() => setActiveTab('dashboard')} className={`flex-1 flex flex-col items-center space-y-1 py-1.5 ${activeTab === 'dashboard' ? 'text-gold' : 'text-slate-500'}`}>
             <LayoutDashboard className="w-6 h-6" />
-            <span className="text-[8px] font-black uppercase tracking-mega">STATUS</span>
+            <span className="text-[9px] font-bold uppercase tracking-wider">Status</span>
           </button>
           
           <button onClick={() => setActiveTab('court')} className={`flex-1 relative flex flex-col items-center space-y-1`}>
             <div className={`p-4 rounded-full -mt-14 shadow-3xl transition-all border-4 ${activeTab === 'court' ? 'btn-gold border-white' : 'bg-slate-800 text-slate-500 border-white/5'}`}>
               <Gavel className="w-7 h-7" />
             </div>
-            <span className={`text-[8px] font-black uppercase tracking-mega mt-1 ${activeTab === 'court' ? 'text-gold' : 'text-slate-500'}`}>ARENA</span>
+            <span className={`text-[9px] font-bold uppercase tracking-wider mt-1 ${activeTab === 'court' ? 'text-gold' : 'text-slate-500'}`}>Arena</span>
           </button>
 
           <button onClick={() => setActiveTab('quiz')} className={`flex-1 flex flex-col items-center space-y-1 py-1.5 ${activeTab === 'quiz' ? 'text-gold' : 'text-slate-500'}`}>
             <BookOpen className="w-6 h-6" />
-            <span className="text-[8px] font-black uppercase tracking-mega">TRIALS</span>
+            <span className="text-[9px] font-bold uppercase tracking-wider">Trials</span>
           </button>
         </nav>
       </div>
