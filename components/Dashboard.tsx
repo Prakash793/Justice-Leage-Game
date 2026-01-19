@@ -178,18 +178,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onUpdateUs
         <h2 className="text-[10px] font-black mb-5 uppercase tracking-mega text-slate-400">Medals Earned</h2>
         <div className="flex space-x-5 overflow-x-auto pb-2 no-scrollbar px-1">
           {[
-            { icon: <Zap />, label: 'RELENTLESS', color: 'bg-gold text-black shadow-gold/30' },
-            { icon: <Award />, label: 'GRAND COUNSEL', color: 'bg-white/10 text-current' },
-            { icon: <Clock />, label: 'NIGHT HAWK', color: 'bg-white/10 text-current' },
-            { icon: <Shield />, label: 'GUARDIAN', color: 'bg-white/10 text-current' },
-          ].map((badge, i) => (
-            <div key={i} className="flex flex-col items-center min-w-[70px] space-y-2.5">
-              <div className={`p-4 rounded-[1.5rem] ${badge.color} shadow-2xl transform hover:scale-110 transition-transform border border-white/5`}>
-                {React.cloneElement(badge.icon as React.ReactElement, { size: 20 })}
+            { Icon: Zap, label: 'RELENTLESS', color: 'bg-gold text-black shadow-gold/30' },
+            { Icon: Award, label: 'GRAND COUNSEL', color: 'bg-white/10 text-current' },
+            { Icon: Clock, label: 'NIGHT HAWK', color: 'bg-white/10 text-current' },
+            { Icon: Shield, label: 'GUARDIAN', color: 'bg-white/10 text-current' },
+          ].map((badge, i) => {
+            const Icon = badge.Icon;
+            return (
+              <div key={i} className="flex flex-col items-center min-w-[70px] space-y-2.5">
+                <div className={`p-4 rounded-[1.5rem] ${badge.color} shadow-2xl transform hover:scale-110 transition-transform border border-white/5`}>
+                  <Icon size={20} />
+                </div>
+                <span className="text-[7px] font-black uppercase tracking-mega opacity-50 text-center leading-tight">{badge.label}</span>
               </div>
-              <span className="text-[7px] font-black uppercase tracking-mega opacity-50 text-center leading-tight">{badge.label}</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
