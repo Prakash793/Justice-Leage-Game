@@ -43,27 +43,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onUpdateUs
   };
 
   return (
-    <div className="space-y-6 px-4 py-6 pb-24">
+    <div className="space-y-6 px-4 py-8 pb-32">
       {/* Profile HUD */}
-      <div className="glass p-6 rounded-[2.5rem] relative overflow-hidden group border-gold/10">
-        <div className="absolute top-0 right-0 p-4 opacity-10">
+      <div className="glass p-7 rounded-[3rem] relative overflow-hidden group border-white/5">
+        <div className="absolute top-0 right-0 p-4 opacity-5">
           <Rocket className="w-24 h-24" />
         </div>
         
         <div className="flex items-start justify-between relative z-10">
-          <div className="flex items-center space-x-5">
+          <div className="flex items-center space-x-6">
             <div className="relative group/img">
               <div 
                 onClick={() => fileInputRef.current?.click()}
-                className="h-24 w-24 rounded-3xl bg-gold/20 flex items-center justify-center text-gold text-3xl font-black border border-gold/30 rotate-3 group-hover:rotate-0 transition-all shadow-xl overflow-hidden cursor-pointer"
+                className="h-20 w-20 rounded-[1.8rem] bg-gold/10 flex items-center justify-center text-gold text-2xl font-black border-2 border-gold/30 rotate-3 group-hover:rotate-0 transition-all shadow-2xl overflow-hidden cursor-pointer"
               >
                 {user.profileImage ? (
                   <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  user.name.charAt(0)
+                  user.name.charAt(0).toUpperCase()
                 )}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity">
-                  <Camera className="w-6 h-6 text-white" />
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity">
+                  <Camera className="w-5 h-5 text-white" />
                 </div>
               </div>
               <input 
@@ -75,48 +75,48 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onUpdateUs
               />
             </div>
             
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">{user.name}</h1>
-              <p className="text-[10px] font-black text-gold/80 uppercase tracking-widest flex items-center mb-3">
-                <Shield className="w-3 h-3 mr-1" />
+            <div className="space-y-1">
+              <h1 className="text-xl font-black tracking-tight text-white uppercase">{user.name}</h1>
+              <p className="text-[9px] font-black text-gold uppercase tracking-mega flex items-center mb-3">
+                <Shield className="w-3 h-3 mr-2" />
                 {user.rank}
               </p>
               
-              <div className="flex space-x-2">
+              <div className="flex space-x-2 pt-1">
                 <button 
                   onClick={onLogout}
-                  className="px-4 py-2 bg-red-500/10 border border-red-500/20 text-red-400 text-[9px] font-black uppercase rounded-full flex items-center space-x-1 hover:bg-red-500/20 active:scale-90 transition-all shadow-lg"
+                  className="px-3 py-1.5 bg-red-500/10 border border-red-500/20 text-red-400 text-[8px] font-black uppercase tracking-mega rounded-xl flex items-center space-x-2 hover:bg-red-500/20 active:scale-90 transition-all shadow-lg"
                 >
-                  <LogOut className="w-3 h-3" />
+                  <LogOut className="w-2.5 h-2.5" />
                   <span>Logout</span>
                 </button>
                 <button 
                   onClick={toggleTheme}
-                  className="px-4 py-2 bg-gold/10 border border-gold/20 text-gold text-[9px] font-black uppercase rounded-full flex items-center space-x-1 hover:bg-gold/20 active:scale-90 transition-all shadow-lg"
+                  className="px-3 py-1.5 bg-gold/10 border border-gold/20 text-gold text-[8px] font-black uppercase tracking-mega rounded-xl flex items-center space-x-2 hover:bg-gold/20 active:scale-90 transition-all shadow-lg"
                 >
-                  {user.theme === 'light' ? <Moon className="w-3 h-3" /> : <Sun className="w-3 h-3" />}
-                  <span>{user.theme === 'light' ? 'Dark' : 'White'} Mode</span>
+                  {user.theme === 'light' ? <Moon className="w-2.5 h-2.5" /> : <Sun className="w-2.5 h-2.5" />}
+                  <span>{user.theme === 'light' ? 'Dark' : 'Light'}</span>
                 </button>
               </div>
             </div>
           </div>
           
-          <div className="w-16 h-16 drop-shadow-2xl opacity-80">
+          <div className="w-14 h-14 drop-shadow-2xl opacity-60">
              <BrandLogo />
           </div>
         </div>
         
-        <div className="grid grid-cols-3 gap-2 mt-8">
+        <div className="grid grid-cols-3 gap-3 mt-8">
           {[
-            { label: 'Power', val: user.totalPoints, icon: <Zap className="w-3 h-3" /> },
-            { label: 'Trials', val: user.casesResolved, icon: <Gavel className="w-3 h-3" /> },
-            { label: 'Exams', val: user.completedQuizzes, icon: <BookOpen className="w-3 h-3" /> },
+            { label: 'POWER', val: user.totalPoints, icon: <Zap className="w-3 h-3" /> },
+            { label: 'TRIALS', val: user.casesResolved, icon: <Gavel className="w-3 h-3" /> },
+            { label: 'EXAMS', val: user.completedQuizzes, icon: <BookOpen className="w-3 h-3" /> },
           ].map((stat, i) => (
-            <div key={i} className="text-center p-3 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm">
-              <p className="text-xl font-black">{stat.val}</p>
-              <div className="flex items-center justify-center space-x-1 opacity-50">
+            <div key={i} className="text-center p-3 rounded-[1.5rem] bg-white/5 border border-white/5 backdrop-blur-md">
+              <p className="text-xl font-black text-white">{stat.val}</p>
+              <div className="flex items-center justify-center space-x-1 opacity-50 mt-1">
                 {stat.icon}
-                <span className="text-[8px] font-black uppercase tracking-widest">{stat.label}</span>
+                <span className="text-[7px] font-black uppercase tracking-mega">{stat.label}</span>
               </div>
             </div>
           ))}
@@ -124,22 +124,23 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onUpdateUs
       </div>
 
       {/* Growth Progress */}
-      <div className="glass p-6 rounded-[2.5rem]">
-        <h2 className="text-sm font-black mb-6 flex items-center uppercase tracking-widest">
+      <div className="glass p-7 rounded-[3rem] border-white/5">
+        <h2 className="text-[10px] font-black mb-6 flex items-center uppercase tracking-mega text-slate-400">
           <TrendingUp className="w-4 h-4 mr-2 text-gold" />
-          Neural Growth
+          Neural Growth Capacity
         </h2>
-        <div className="h-44 w-full">
+        <div className="h-40 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data}>
-              <XAxis dataKey="name" fontSize={10} tickLine={false} axisLine={false} tick={{fill: 'currentColor', opacity: 0.4}} />
+              <XAxis dataKey="name" fontSize={8} fontWeight={800} tickLine={false} axisLine={false} tick={{fill: 'currentColor', opacity: 0.3}} />
               <Tooltip 
-                contentStyle={{background: 'var(--card-bg)', border: '1px solid var(--glass-border)', borderRadius: '12px', fontSize: '10px'}}
+                cursor={{fill: 'rgba(255,255,255,0.05)', radius: 8}}
+                contentStyle={{background: 'var(--glass-dark-bg)', border: '1px solid var(--glass-border)', borderRadius: '12px', fontSize: '9px', fontWeight: 800, textTransform: 'uppercase'}}
                 itemStyle={{color: '#fbbf24'}}
               />
               <Bar dataKey="score" radius={[6, 6, 6, 6]}>
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={index === 5 ? '#fbbf24' : 'rgba(128,128,128,0.2)'} />
+                  <Cell key={`cell-${index}`} fill={index === 5 ? '#fbbf24' : 'rgba(255,255,255,0.08)'} />
                 ))}
               </Bar>
             </BarChart>
@@ -149,41 +150,44 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onUpdateUs
 
       {/* Quick Access */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white/5 border border-white/10 p-5 rounded-[2rem] flex flex-col justify-between h-36 hover:bg-white/10 transition-all group">
-          <div className="w-10 h-10 bg-gold/10 rounded-xl flex items-center justify-center group-hover:bg-gold group-hover:text-black transition-all">
-            <Target className="w-6 h-6 text-gold group-hover:text-black" />
+        <div className="bg-white/5 border border-white/10 p-6 rounded-[2.5rem] flex flex-col justify-between h-36 hover:bg-white/10 transition-all group shadow-xl">
+          <div className="w-10 h-10 bg-gold/10 rounded-2xl flex items-center justify-center group-hover:bg-gold group-hover:text-black transition-all">
+            <Target className="w-5 h-5 text-gold group-hover:text-black" />
           </div>
           <div>
-            <h3 className="font-black text-sm uppercase tracking-wide">Next Mission</h3>
-            <p className="text-[10px] opacity-60">Civil Code Trials</p>
+            <h3 className="font-black text-[11px] uppercase tracking-mega text-white">Next Mission</h3>
+            <p className="text-[8px] opacity-40 font-bold uppercase tracking-mega mt-1">Civil Code Trials</p>
           </div>
         </div>
-        <div className="bg-gold p-5 rounded-[2rem] flex flex-col justify-between h-36 hover:scale-95 transition-all shadow-xl">
-          <div className="w-10 h-10 bg-black/10 rounded-xl flex items-center justify-center">
-            <Zap className="w-6 h-6 text-black" />
+        <div className="bg-gold p-6 rounded-[2.5rem] flex flex-col justify-between h-36 hover:scale-95 transition-all shadow-2xl relative overflow-hidden group">
+          <div className="absolute -right-3 -top-3 opacity-10 group-hover:scale-150 transition-transform duration-1000">
+            <Zap className="w-20 h-20 text-black" />
+          </div>
+          <div className="w-10 h-10 bg-black/10 rounded-2xl flex items-center justify-center">
+            <Zap className="w-5 h-5 text-black" />
           </div>
           <div>
-            <h3 className="font-black text-sm text-black uppercase tracking-wide">Daily Blitz</h3>
-            <p className="text-[10px] text-black/60 font-bold">Constitutional Quiz</p>
+            <h3 className="font-black text-[11px] text-black uppercase tracking-mega">Daily Blitz</h3>
+            <p className="text-[8px] text-black/60 font-black uppercase tracking-mega mt-1">Constitutional Law</p>
           </div>
         </div>
       </div>
 
       {/* Achievements */}
-      <div className="glass p-6 rounded-[2.5rem]">
-        <h2 className="text-sm font-black mb-4 uppercase tracking-widest">Medals Earned</h2>
-        <div className="flex space-x-5 overflow-x-auto pb-2 no-scrollbar">
+      <div className="glass p-7 rounded-[3rem] border-white/5">
+        <h2 className="text-[10px] font-black mb-5 uppercase tracking-mega text-slate-400">Medals Earned</h2>
+        <div className="flex space-x-5 overflow-x-auto pb-2 no-scrollbar px-1">
           {[
-            { icon: <Zap />, label: 'Relentless', color: 'bg-gold text-black' },
-            { icon: <Award />, label: 'Grand Counsel', color: 'bg-white/10 text-current' },
-            { icon: <Clock />, label: 'Night Hawk', color: 'bg-white/10 text-current' },
-            { icon: <Shield />, label: 'Guardian', color: 'bg-white/10 text-current' },
+            { icon: <Zap />, label: 'RELENTLESS', color: 'bg-gold text-black shadow-gold/30' },
+            { icon: <Award />, label: 'GRAND COUNSEL', color: 'bg-white/10 text-current' },
+            { icon: <Clock />, label: 'NIGHT HAWK', color: 'bg-white/10 text-current' },
+            { icon: <Shield />, label: 'GUARDIAN', color: 'bg-white/10 text-current' },
           ].map((badge, i) => (
-            <div key={i} className="flex flex-col items-center min-w-[70px] space-y-2">
-              <div className={`p-4 rounded-3xl ${badge.color} shadow-lg transform hover:scale-110 transition-transform`}>
-                {badge.icon}
+            <div key={i} className="flex flex-col items-center min-w-[70px] space-y-2.5">
+              <div className={`p-4 rounded-[1.5rem] ${badge.color} shadow-2xl transform hover:scale-110 transition-transform border border-white/5`}>
+                {React.cloneElement(badge.icon as React.ReactElement, { size: 20 })}
               </div>
-              <span className="text-[8px] font-black uppercase tracking-tighter opacity-50">{badge.label}</span>
+              <span className="text-[7px] font-black uppercase tracking-mega opacity-50 text-center leading-tight">{badge.label}</span>
             </div>
           ))}
         </div>

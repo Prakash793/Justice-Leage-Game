@@ -8,29 +8,31 @@
   <link rel="manifest" href="/metadata.json">
   <meta name="theme-color" content="#fbbf24">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-color: radial-gradient(circle at top right, #0f172a, #0a192f);
       --text-color: #f8fafc;
       --glass-bg: rgba(255, 255, 255, 0.05);
       --glass-border: rgba(255, 255, 255, 0.1);
-      --glass-dark-bg: rgba(0, 0, 0, 0.6);
+      --glass-dark-bg: rgba(0, 0, 0, 0.8);
       --card-bg: #1e293b;
       --gold: #fbbf24;
+      --gold-dark: #b45309;
+      --font-primary: 'Segoe UI Variable Display', 'Segoe UI Variable Text', 'Segoe UI Variable Small', 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
 
     body.light-theme {
       --bg-color: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
       --text-color: #0f172a;
-      --glass-bg: rgba(0, 0, 0, 0.03);
-      --glass-border: rgba(0, 0, 0, 0.08);
-      --glass-dark-bg: rgba(255, 255, 255, 0.8);
+      --glass-bg: rgba(0, 0, 0, 0.05);
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --glass-dark-bg: rgba(255, 255, 255, 0.9);
       --card-bg: #ffffff;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-primary);
       background: var(--bg-color);
       background-attachment: fixed;
       color: var(--text-color);
@@ -38,24 +40,32 @@
       min-height: 100vh;
       overflow-x: hidden;
       transition: background 0.4s ease, color 0.4s ease;
+      line-height: 1.4;
+      font-feature-settings: "cv01", "ss01", "ss03";
     }
 
-    .font-serif {
-      font-family: 'Playfair Display', serif;
-    }
+    .font-serif { font-family: 'Playfair Display', serif; }
 
     .glass {
       background: var(--glass-bg);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
       border: 1px solid var(--glass-border);
     }
 
-    .glass-dark {
-      background: var(--glass-dark-bg);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      border: 1px solid var(--glass-border);
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold) 0%, #fcd34d 100%);
+      color: #061121;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 16px 32px -12px rgba(251, 191, 36, 0.6);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-gold:active {
+      transform: scale(0.95);
+      box-shadow: 0 8px 16px -4px rgba(251, 191, 36, 0.4);
     }
 
     .shine-effect {
@@ -73,11 +83,11 @@
       background: linear-gradient(
         to bottom right,
         rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.3) 50%,
         rgba(255, 255, 255, 0) 100%
       );
       transform: rotate(45deg);
-      animation: shine 3s infinite;
+      animation: shine 4s infinite;
     }
 
     @keyframes shine {
@@ -85,44 +95,24 @@
       100% { transform: translateX(150%) rotate(45deg); }
     }
 
-    @keyframes confetti-fall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    .confetti {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      background: var(--gold);
-      top: -10px;
-      z-index: 100;
-      pointer-events: none;
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    .shadow-3xl {
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
+    .shadow-3xl { box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8); }
     
-    .light-theme .shadow-3xl {
-      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
-    }
+    h1, h2, h3, h4 { font-weight: 900; letter-spacing: -0.04em; }
     
-    /* Mobile-first adjustments */
-    @media (max-width: 480px) {
-      .quiz-card {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-      }
+    /* Reduced tracking for tighter text */
+    .tracking-ultra { letter-spacing: 0.08em; }
+    .tracking-mega { letter-spacing: 0.04em; }
+
+    /* Fix for input backgrounds */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: white;
+      -webkit-box-shadow: 0 0 0px 1000px rgba(15, 23, 42, 0.5) inset;
+      transition: background-color 5000s ease-in-out 0s;
     }
   </style>
 <script type="importmap">
