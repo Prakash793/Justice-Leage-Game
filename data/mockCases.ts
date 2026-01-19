@@ -3,10 +3,10 @@ import { CaseScenario } from '../types';
 
 export const MOCK_CASES: CaseScenario[] = [
   {
-    id: 'ipc-001',
+    id: 'bns-001',
     title: 'State vs. Mani (Theft at Central Station)',
-    category: 'IPC',
-    brief: 'A case involving alleged theft under Section 379 of the Indian Penal Code at the Chennai Central Railway Station. The accused was apprehended with a gold chain belonging to a passenger.',
+    category: 'BNS',
+    brief: 'A case involving alleged theft under Section 303 of the Bharatiya Nyaya Sanhita (BNS) at the Chennai Central Railway Station. The accused was apprehended with a gold chain belonging to a passenger.',
     facts: [
       'The complainant was waiting for the Podhigai Express at 9:30 PM.',
       'A person later identified as the accused snatched a 2-sovereign gold chain.',
@@ -20,15 +20,15 @@ export const MOCK_CASES: CaseScenario[] = [
     }
   },
   {
-    id: 'crpc-002',
+    id: 'bnss-002',
     title: 'Bail Application: Selvam vs. State',
-    category: 'CrPC',
-    brief: 'An application for anticipatory bail under Section 438 of the CrPC filed before the Sessions Court in Coimbatore. The petitioner is accused of criminal intimidation.',
+    category: 'BNSS',
+    brief: 'An application for anticipatory bail under Section 482 of the Bharatiya Nagarik Suraksha Sanhita (BNSS) filed before the Sessions Court in Coimbatore. The petitioner is accused of criminal intimidation.',
     facts: [
       'The petitioner is a local businessman with no prior criminal record.',
       'A dispute arose over a land transaction in Pollachi.',
       'The complainant alleges that the petitioner threatened him with dire consequences.',
-      'Police have registered an FIR under Section 506(ii) IPC.',
+      'Police have registered an e-FIR under Section 351 of BNS.',
       'The petitioner argues the FIR is a tool for harassment to settle a civil score.'
     ],
     parties: {

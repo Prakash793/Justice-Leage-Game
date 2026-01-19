@@ -10,45 +10,119 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-color: radial-gradient(circle at top right, #0f172a, #0a192f);
+      --text-color: #f8fafc;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-dark-bg: rgba(0, 0, 0, 0.6);
+      --card-bg: #1e293b;
+      --gold: #fbbf24;
+    }
+
+    body.light-theme {
+      --bg-color: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+      --text-color: #0f172a;
+      --glass-bg: rgba(0, 0, 0, 0.03);
+      --glass-border: rgba(0, 0, 0, 0.08);
+      --glass-dark-bg: rgba(255, 255, 255, 0.8);
+      --card-bg: #ffffff;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at top right, #0f172a, #0a192f);
+      background: var(--bg-color);
       background-attachment: fixed;
-      color: #f8fafc;
+      color: var(--text-color);
       -webkit-tap-highlight-color: transparent;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
     }
+
     .font-serif {
       font-family: 'Playfair Display', serif;
     }
+
     .glass {
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--glass-bg);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
     }
+
     .glass-dark {
-      background: rgba(0, 0, 0, 0.6);
+      background: var(--glass-dark-bg);
       backdrop-filter: blur(30px);
       -webkit-backdrop-filter: blur(30px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
     }
-    .text-gold {
-      color: #fbbf24;
+
+    .shine-effect {
+      position: relative;
+      overflow: hidden;
     }
-    .bg-gold {
-      background-color: #fbbf24;
+    
+    .shine-effect::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
     }
+
+    @keyframes shine {
+      0% { transform: translateX(-150%) rotate(45deg); }
+      100% { transform: translateX(150%) rotate(45deg); }
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      top: -10px;
+      z-index: 100;
+      pointer-events: none;
+    }
+
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
+
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
     .shadow-3xl {
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    
+    .light-theme .shadow-3xl {
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Mobile-first adjustments */
+    @media (max-width: 480px) {
+      .quiz-card {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
     }
   </style>
 <script type="importmap">
@@ -66,7 +140,7 @@
 }
 </script>
 </head>
-<body>
+<body class="dark-theme">
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

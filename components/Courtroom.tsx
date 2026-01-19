@@ -41,7 +41,7 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
   const handleRoleSelection = (selectedRole: Role) => {
     setRole(selectedRole);
     setPhase('Live');
-    setCourtLog([{ role: 'Court', content: `The session is now in progress. Counsel for ${selectedRole === 'Advocate' ? 'Defense' : 'Prosecution'}, present your case before the Bench.` }]);
+    setCourtLog([{ role: 'Court', content: `The session is now in progress. Counsel for ${selectedRole === 'Advocate' ? 'Defense' : 'Prosecution'}, present your case before the Bench using the new BNS/BNSS framework.` }]);
   };
 
   const finishSession = () => {
@@ -84,7 +84,7 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
             <Gavel className="w-12 h-12 text-gold mx-auto" />
           </div>
           <h1 className="text-3xl font-serif font-bold text-white mb-2">The Arena</h1>
-          <p className="text-[10px] font-black text-gold uppercase tracking-[0.2em]">Live Simulation Circuit</p>
+          <p className="text-[10px] font-black text-gold uppercase tracking-[0.2em]">Live BNS/BNSS Simulation Circuit</p>
         </div>
 
         <div className="flex p-1.5 glass rounded-2xl border border-white/5">
@@ -93,20 +93,20 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
             className={`flex-1 flex items-center justify-center space-x-2 py-3 text-xs font-black rounded-xl transition-all uppercase tracking-widest ${selectionMode === 'Curated' ? 'bg-gold text-black shadow-lg' : 'text-slate-500'}`}
           >
             <Book className="w-4 h-4" />
-            <span>Classics</span>
+            <span>Classic Trials</span>
           </button>
           <button 
             onClick={() => setSelectionMode('AI')}
             className={`flex-1 flex items-center justify-center space-x-2 py-3 text-xs font-black rounded-xl transition-all uppercase tracking-widest ${selectionMode === 'AI' ? 'bg-gold text-black shadow-lg' : 'text-slate-500'}`}
           >
             <Sparkles className="w-4 h-4" />
-            <span>Oracle</span>
+            <span>AI Oracle</span>
           </button>
         </div>
 
         {selectionMode === 'AI' ? (
           <div className="grid grid-cols-1 w-full gap-4">
-            {['IPC Criminal', 'Civil Procedure', 'Constitutional Law'].map((cat) => (
+            {['BNS (Criminal Law)', 'BNSS (Procedure)', 'BSA (Evidence)', 'Constitution Law'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => startCase(cat)}
@@ -114,8 +114,8 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
                 className="w-full p-6 glass border border-white/5 rounded-[2rem] text-left hover:bg-white/10 transition-all flex justify-between items-center group"
               >
                 <div>
-                  <span className="font-bold text-white text-lg block">{cat}</span>
-                  <span className="text-[10px] font-black text-gold uppercase tracking-widest opacity-60">Neural Generation Ready</span>
+                  <span className="font-bold text-white text-lg block tracking-tight">{cat}</span>
+                  <span className="text-[9px] font-black text-gold uppercase tracking-widest opacity-60">Generate Modern Case</span>
                 </div>
                 {loading ? (
                   <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin"></div>
@@ -135,8 +135,9 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
               >
                 <div className="flex justify-between items-start mb-4">
                   <span className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest ${
-                    scenario.category === 'IPC' ? 'bg-red-500/20 text-red-400 border border-red-500/20' :
-                    scenario.category === 'CPC' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/20' :
+                    scenario.category === 'BNS' ? 'bg-red-500/20 text-red-400 border border-red-500/20' :
+                    scenario.category === 'BNSS' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/20' :
+                    scenario.category === 'BSA' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/20' :
                     'bg-purple-500/20 text-purple-400 border border-purple-500/20'
                   }`}>
                     {scenario.category}
@@ -162,11 +163,11 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
             className="text-[10px] font-black text-gold mb-6 flex items-center uppercase tracking-widest hover:translate-x-1 transition-transform"
           >
             <ArrowRight className="w-3 h-3 rotate-180 mr-2" />
-            Back to Roster
+            Back to Arena
           </button>
           <h2 className="text-3xl font-serif font-bold text-white mb-3 leading-tight">{caseScenario.title}</h2>
           <div className="flex space-x-3">
-            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[8px] font-black text-slate-400 uppercase tracking-widest">Madras Jurisdiction</span>
+            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[8px] font-black text-slate-400 uppercase tracking-widest">Tamil Nadu Jurisdiction</span>
             <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[8px] font-black text-gold uppercase tracking-widest">{caseScenario.category}</span>
           </div>
         </div>
@@ -193,21 +194,21 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
           </div>
 
           <div className="pt-6">
-            <p className="text-center text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-6">Initiate Protocol</p>
+            <p className="text-center text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-6">Enter Courtroom as</p>
             <div className="grid grid-cols-2 gap-4">
               <button 
                 onClick={() => handleRoleSelection('Public Prosecutor')}
                 className="p-6 bg-slate-800 text-white rounded-[2rem] font-black flex flex-col items-center space-y-3 border border-white/5 shadow-2xl active:scale-95 transition-all"
               >
                 <Shield className="w-8 h-8 text-gold" />
-                <span className="text-[10px] uppercase tracking-widest">Prosecution</span>
+                <span className="text-[10px] uppercase tracking-widest">Prosecutor</span>
               </button>
               <button 
                 onClick={() => handleRoleSelection('Advocate')}
                 className="p-6 bg-gold text-slate-900 rounded-[2rem] font-black flex flex-col items-center space-y-3 shadow-2xl active:scale-95 transition-all"
               >
                 <Target className="w-8 h-8 text-black" />
-                <span className="text-[10px] uppercase tracking-widest text-black">Defense</span>
+                <span className="text-[10px] uppercase tracking-widest text-black">Counsel</span>
               </button>
             </div>
           </div>
@@ -233,7 +234,7 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
             onClick={finishSession}
             className="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/40 rounded-xl text-[9px] font-black uppercase tracking-widest"
            >
-             End
+             Exit
            </button>
           <div className="text-right">
             <p className="text-[8px] text-slate-500 uppercase font-black tracking-widest mb-1">XP Points</p>
@@ -265,7 +266,7 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
         {loading && (
           <div className="flex justify-start">
             <div className="bg-white/5 p-4 rounded-full text-slate-500 animate-pulse text-[10px] font-black uppercase tracking-widest border border-white/5">
-              Processing legal strategy...
+              Consulting Law Digest...
             </div>
           </div>
         )}
@@ -279,7 +280,7 @@ export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && submitArgument()}
-            placeholder="Dictate protocol or cite statutes..."
+            placeholder="Cite BNS section or present facts..."
             className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-xs font-bold text-white focus:ring-2 focus:ring-gold focus:outline-none placeholder:text-slate-600 shadow-inner"
           />
           <button 

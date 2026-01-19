@@ -13,7 +13,7 @@ export const generateCaseScenario = async (category: string) => {
     return filtered.length > 0 ? filtered[Math.floor(Math.random() * filtered.length)] : MOCK_CASES[0];
   }
 
-  const prompt = `Generate a legal case scenario based on ${category} (Indian context, Tamil Nadu specific if possible). 
+  const prompt = `Generate a legal case scenario based on ${category} (Use new Indian laws BNS/BNSS/BSA where applicable, Tamil Nadu specific context). 
   Return as JSON with title, brief, facts (array), and parties.`;
   
   try {
@@ -65,11 +65,12 @@ export const getCourtroomInteraction = async (
     };
   }
 
-  const prompt = `You are an AI Virtual Judge/Opposing Counsel in a Tamil Nadu mock court. 
+  const prompt = `You are an AI Virtual Judge in a Tamil Nadu mock court. 
+  The legal framework is the new BNS (Bharatiya Nyaya Sanhita), BNSS, and BSA.
   Case: ${caseBrief}
   User Role: ${role}
   User Input: ${userAction}
-  Evaluate their legal reasoning. Provide a dynamic response.
+  Evaluate their legal reasoning using the new section numbers and concepts. Provide a dynamic response.
   Provide a "legal_score" from 0-10.`;
 
   try {
@@ -108,6 +109,7 @@ export const generateLegalQuiz = async (topic: string) => {
   }
 
   const prompt = `Generate 5 high-quality legal MCQ questions for Tamil Nadu law students on ${topic}. 
+  If criminal law, use the new BNS/BNSS/BSA framework.
   Include detailed explanations in English and a short summary in Tamil.
   Return as an array of JSON objects.`;
 

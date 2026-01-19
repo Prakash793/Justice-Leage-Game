@@ -1,5 +1,6 @@
 
 export type Role = 'Advocate' | 'Public Prosecutor' | 'Judge';
+export type Theme = 'dark' | 'light';
 
 export interface User {
   id: string;
@@ -9,12 +10,14 @@ export interface User {
   completedQuizzes: number;
   casesResolved: number;
   rank: string;
+  profileImage?: string; // Base64 string
+  theme?: Theme;
 }
 
 export interface CaseScenario {
   id: string;
   title: string;
-  category: 'IPC' | 'CrPC' | 'CPC' | 'Constitution';
+  category: 'BNS' | 'BNSS' | 'BSA' | 'Constitution' | 'CPC';
   brief: string;
   facts: string[];
   parties: { petitioner: string; respondent: string };

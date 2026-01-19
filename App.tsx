@@ -5,9 +5,9 @@ import { Dashboard } from './components/Dashboard';
 import { Courtroom } from './components/Courtroom';
 import { Quiz } from './components/Quiz';
 import { BrandLogo } from './components/BrandLogo';
-import { User } from './types';
+import { User, Theme } from './types';
 
-const STORAGE_KEY = 'jl_user_session_v2';
+const STORAGE_KEY = 'jl_user_session_v3';
 
 const getRank = (points: number): string => {
   if (points >= 5000) return 'Supreme Counsel';
@@ -28,7 +28,8 @@ const App: React.FC = () => {
     totalPoints: 0,
     completedQuizzes: 0,
     casesResolved: 0,
-    rank: 'Junior Counsel'
+    rank: 'Junior Counsel',
+    theme: 'dark'
   });
 
   useEffect(() => {
@@ -37,7 +38,8 @@ const App: React.FC = () => {
       const parsed = JSON.parse(saved);
       setUser({
         ...parsed,
-        rank: getRank(parsed.totalPoints)
+        rank: getRank(parsed.totalPoints),
+        theme: parsed.theme || 'dark'
       });
       setAuthState('app');
     }
@@ -51,6 +53,17 @@ const App: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Sync theme with body class
+    if (user.theme === 'light') {
+      document.body.classList.add('light-theme');
+      document.body.classList.remove('dark-theme');
+    } else {
+      document.body.classList.add('dark-theme');
+      document.body.classList.remove('light-theme');
+    }
+  }, [user.theme]);
+
   const updateStats = (points: number, quizzes: number, cases: number) => {
     setUser(prev => {
       const newPoints = prev.totalPoints + points;
@@ -61,6 +74,14 @@ const App: React.FC = () => {
         casesResolved: prev.casesResolved + cases,
         rank: getRank(newPoints)
       };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const handleUpdateUser = (updates: Partial<User>) => {
+    setUser(prev => {
+      const updated = { ...prev, ...updates };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       return updated;
     });
@@ -85,7 +106,8 @@ const App: React.FC = () => {
       totalPoints: 0,
       completedQuizzes: 0,
       casesResolved: 0,
-      rank: 'Junior Counsel'
+      rank: 'Junior Counsel',
+      theme: 'dark'
     });
     setAuthState('login');
     setActiveTab('dashboard');
@@ -176,13 +198,13 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto min-h-screen bg-[#0a192f] shadow-2xl relative text-slate-100 flex flex-col overflow-hidden">
+    <div className="max-w-md mx-auto min-h-screen shadow-2xl relative flex flex-col overflow-hidden">
       <div className="sticky top-0 z-50 glass-dark border-b border-white/5 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10">
             <BrandLogo />
           </div>
-          <h2 className="text-[10px] font-black text-white uppercase tracking-[0.2em]">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.2em]">
             {activeTab === 'dashboard' ? 'STATUS' : activeTab === 'court' ? 'ARENA' : 'TRIALS'}
           </h2>
           {isOffline && (
@@ -195,16 +217,20 @@ const App: React.FC = () => {
         <div className="flex items-center space-x-3">
           <div className="text-right hidden xs:block">
             <p className="text-[7px] font-black text-gold uppercase tracking-tighter leading-none mb-1">{user.rank}</p>
-            <p className="text-[10px] font-bold text-white leading-none truncate max-w-[80px]">{user.name}</p>
+            <p className="text-[10px] font-bold leading-none truncate max-w-[80px]">{user.name}</p>
           </div>
-          <div className="h-10 w-10 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center">
-            <span className="font-black text-gold text-sm">{user.name.charAt(0)}</span>
+          <div className="h-10 w-10 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center overflow-hidden">
+            {user.profileImage ? (
+              <img src={user.profileImage} alt="User" className="w-full h-full object-cover" />
+            ) : (
+              <span className="font-black text-gold text-sm">{user.name.charAt(0)}</span>
+            )}
           </div>
         </div>
       </div>
 
       <main className="flex-1 overflow-y-auto pb-32 no-scrollbar">
-        {activeTab === 'dashboard' && <Dashboard user={user} onLogout={handleLogout} />}
+        {activeTab === 'dashboard' && <Dashboard user={user} onLogout={handleLogout} onUpdateUser={handleUpdateUser} />}
         {activeTab === 'court' && <Courtroom onComplete={(points) => updateStats(points, 0, 1)} />}
         {activeTab === 'quiz' && <Quiz onComplete={(points) => updateStats(points, 1, 0)} />}
       </main>
@@ -217,7 +243,7 @@ const App: React.FC = () => {
           </button>
           
           <button onClick={() => setActiveTab('court')} className={`flex-1 relative flex flex-col items-center space-y-1`}>
-            <div className={`p-4 rounded-full -mt-12 shadow-3xl transition-all border-2 ${activeTab === 'court' ? 'bg-gold text-black border-white' : 'bg-slate-800 text-slate-500'}`}>
+            <div className={`p-4 rounded-full -mt-12 shadow-3xl transition-all border-2 ${activeTab === 'court' ? 'bg-gold text-black border-white' : 'bg-slate-800 text-slate-500 border-transparent'}`}>
               <Gavel className="w-8 h-8" />
             </div>
             <span className={`text-[9px] font-black uppercase mt-1 ${activeTab === 'court' ? 'text-gold' : 'text-slate-500'}`}>Arena</span>
