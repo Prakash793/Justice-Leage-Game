@@ -1,11 +1,10 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { OFFLINE_QUIZ, OFFLINE_FEEDBACK } from "../data/localContent";
 import { MOCK_CASES } from "../data/mockCases";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 
-const isOnline = () => navigator.onLine;
+const isOnline = () => typeof navigator !== 'undefined' && navigator.onLine;
 
 export const generateCaseScenario = async (category: string) => {
   if (!isOnline()) {
@@ -40,9 +39,12 @@ export const generateCaseScenario = async (category: string) => {
         }
       }
     });
-    const text = response.text ?? '{}';
+
+    const text = response.text;
+    if (!text) throw new Error("Empty response from AI");
     return JSON.parse(text);
   } catch (e) {
+    console.error("AI Generation Error:", e);
     return MOCK_CASES[0];
   }
 };
@@ -85,9 +87,12 @@ export const getCourtroomInteraction = async (
         }
       }
     });
-    const text = response.text ?? '{}';
+
+    const text = response.text;
+    if (!text) throw new Error("Empty response from AI");
     return JSON.parse(text);
   } catch (e) {
+    console.error("AI Interaction Error:", e);
     return {
       response: "The court acknowledges your submission. (Connection Lost - Fallback activated)",
       legal_score: 5,
@@ -127,9 +132,12 @@ export const generateLegalQuiz = async (topic: string) => {
         }
       }
     });
-    const text = response.text ?? '[]';
+
+    const text = response.text;
+    if (!text) throw new Error("Empty response from AI");
     return JSON.parse(text);
   } catch (e) {
+    console.error("AI Quiz Error:", e);
     return OFFLINE_QUIZ[topic] || OFFLINE_QUIZ['Constitutional Law'];
   }
 };
