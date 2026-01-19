@@ -1,10 +1,10 @@
 {
-  "name": "Justice League - Student Edition",
-  "description": "Premium offline-first learning platform for legal excellence in Tamil Nadu.",
+  "name": "Justice League: Student Edition",
+  "description": "Premium legal training platform for the future advocates of Tamil Nadu.",
   "short_name": "JusticeLeague",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
+  "background_color": "#0a192f",
   "theme_color": "#fbbf24",
   "requestFramePermissions": []
 }

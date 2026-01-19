@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { OFFLINE_QUIZ, OFFLINE_FEEDBACK } from "../data/localContent";
 import { MOCK_CASES } from "../data/mockCases";
@@ -40,7 +41,7 @@ export const generateCaseScenario = async (category: string) => {
       }
     });
 
-    const text = response.text;
+    const text = response.text ?? "";
     if (!text) throw new Error("Empty response from AI");
     return JSON.parse(text);
   } catch (e) {
@@ -88,7 +89,7 @@ export const getCourtroomInteraction = async (
       }
     });
 
-    const text = response.text;
+    const text = response.text ?? "";
     if (!text) throw new Error("Empty response from AI");
     return JSON.parse(text);
   } catch (e) {
@@ -133,7 +134,7 @@ export const generateLegalQuiz = async (topic: string) => {
       }
     });
 
-    const text = response.text;
+    const text = response.text ?? "";
     if (!text) throw new Error("Empty response from AI");
     return JSON.parse(text);
   } catch (e) {

@@ -1,10 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-import { Timer, CheckCircle, XCircle, ChevronRight, Zap, Shield, Target, Pause, Play, Trophy, Rocket, RefreshCcw } from 'lucide-react';
+import { Timer, CheckCircle, XCircle, ChevronRight, Zap, Shield, Pause, Play, Trophy, Rocket, RefreshCcw } from 'lucide-react';
 import { generateLegalQuiz } from '../services/gemini';
 import { QuizQuestion } from '../types';
 
-export const Quiz: React.FC = () => {
+interface QuizProps {
+  onComplete: (score: number) => void;
+}
+
+export const Quiz: React.FC<QuizProps> = ({ onComplete }) => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -62,6 +66,7 @@ export const Quiz: React.FC = () => {
       setIsPaused(false);
     } else {
       setShowResults(true);
+      onComplete(score);
     }
   };
 

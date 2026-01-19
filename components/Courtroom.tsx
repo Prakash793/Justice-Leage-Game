@@ -1,12 +1,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-// Added Scale to the imports
-import { Gavel, MessageSquare, AlertCircle, CheckCircle, ArrowRight, Shield, User as UserIcon, Sparkles, Book, Target, Scale } from 'lucide-react';
+import { Gavel, ArrowRight, Shield, Sparkles, Book, Target, Scale } from 'lucide-react';
 import { generateCaseScenario, getCourtroomInteraction } from '../services/gemini';
 import { Role, CaseScenario } from '../types';
 import { MOCK_CASES } from '../data/mockCases';
 
-export const Courtroom: React.FC = () => {
+interface CourtroomProps {
+  onComplete: (score: number) => void;
+}
+
+export const Courtroom: React.FC<CourtroomProps> = ({ onComplete }) => {
   const [loading, setLoading] = useState(false);
   const [caseScenario, setCaseScenario] = useState<CaseScenario | null>(null);
   const [role, setRole] = useState<Role | null>(null);
@@ -39,6 +42,15 @@ export const Courtroom: React.FC = () => {
     setRole(selectedRole);
     setPhase('Live');
     setCourtLog([{ role: 'Court', content: `The session is now in progress. Counsel for ${selectedRole === 'Advocate' ? 'Defense' : 'Prosecution'}, present your case before the Bench.` }]);
+  };
+
+  const finishSession = () => {
+    onComplete(score);
+    setPhase('RoleSelection');
+    setRole(null);
+    setCaseScenario(null);
+    setCourtLog([]);
+    setScore(0);
   };
 
   const submitArgument = async () => {
@@ -75,7 +87,6 @@ export const Courtroom: React.FC = () => {
           <p className="text-[10px] font-black text-gold uppercase tracking-[0.2em]">Live Simulation Circuit</p>
         </div>
 
-        {/* Selection Tabs */}
         <div className="flex p-1.5 glass rounded-2xl border border-white/5">
           <button 
             onClick={() => setSelectionMode('Curated')}
@@ -130,11 +141,6 @@ export const Courtroom: React.FC = () => {
                   }`}>
                     {scenario.category}
                   </span>
-                  <div className="flex space-x-1">
-                    <div className="w-1 h-1 bg-gold rounded-full"></div>
-                    <div className="w-1 h-1 bg-gold/50 rounded-full"></div>
-                    <div className="w-1 h-1 bg-gold/20 rounded-full"></div>
-                  </div>
                 </div>
                 <h3 className="font-bold text-white text-base mb-2 group-hover:text-gold transition-colors">{scenario.title}</h3>
                 <p className="text-[11px] text-slate-400 line-clamp-2 font-medium leading-relaxed">{scenario.brief}</p>
@@ -212,7 +218,6 @@ export const Courtroom: React.FC = () => {
 
   return (
     <div className="flex flex-col h-[calc(100vh-80px)] overflow-hidden bg-black/20">
-      {/* HUD Header */}
       <div className="glass-dark border-b border-white/10 px-6 py-4 flex justify-between items-center shrink-0">
         <div className="flex items-center space-x-4">
           <div className="w-10 h-10 bg-gold/20 rounded-2xl flex items-center justify-center border border-gold/30">
@@ -223,19 +228,23 @@ export const Courtroom: React.FC = () => {
             <p className="text-[9px] text-gold font-black uppercase tracking-widest">{role}</p>
           </div>
         </div>
-        <div className="text-right">
-          <p className="text-[8px] text-slate-500 uppercase font-black tracking-widest mb-1">XP Points</p>
-          <p className="text-xl font-black text-white leading-none">{score}</p>
+        <div className="flex items-center space-x-4">
+           <button 
+            onClick={finishSession}
+            className="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/40 rounded-xl text-[9px] font-black uppercase tracking-widest"
+           >
+             End
+           </button>
+          <div className="text-right">
+            <p className="text-[8px] text-slate-500 uppercase font-black tracking-widest mb-1">XP Points</p>
+            <p className="text-xl font-black text-white leading-none">{score}</p>
+          </div>
         </div>
       </div>
 
-      {/* Arena Feed */}
       <div className="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar">
         {courtLog.map((msg, i) => (
-          <div 
-            key={i} 
-            className={`flex ${msg.role === 'User' ? 'justify-end' : 'justify-start'}`}
-          >
+          <div key={i} className={`flex ${msg.role === 'User' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[90%] p-5 rounded-[2rem] shadow-2xl text-xs font-medium leading-relaxed ${
               msg.role === 'User' 
                 ? 'bg-gold text-slate-900 rounded-tr-none font-bold' 
@@ -263,7 +272,6 @@ export const Courtroom: React.FC = () => {
         <div ref={logEndRef} />
       </div>
 
-      {/* Input Module */}
       <div className="p-6 glass-dark border-t border-white/10 shrink-0">
         <div className="flex items-center space-x-3 mb-4">
           <input
@@ -281,17 +289,6 @@ export const Courtroom: React.FC = () => {
           >
             <ArrowRight className="w-7 h-7" />
           </button>
-        </div>
-        <div className="flex space-x-2 overflow-x-auto no-scrollbar py-1">
-          {['Objection!', 'Cite Article 14', 'Fact Check', 'Move for Dismissal'].map(label => (
-             <button 
-              key={label}
-              onClick={() => setUserInput(prev => prev + " " + label)} 
-              className="shrink-0 px-4 py-2 bg-white/5 text-[9px] font-black text-slate-400 rounded-xl border border-white/10 hover:bg-white/10 hover:text-gold transition-all uppercase tracking-widest"
-             >
-               {label}
-             </button>
-          ))}
         </div>
       </div>
     </div>
