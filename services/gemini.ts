@@ -9,7 +9,6 @@ const isOnline = () => navigator.onLine;
 
 export const generateCaseScenario = async (category: string) => {
   if (!isOnline()) {
-    // Return a random mock case matching the category or just any random one
     const filtered = MOCK_CASES.filter(c => c.category.includes(category) || category.includes(c.category));
     return filtered.length > 0 ? filtered[Math.floor(Math.random() * filtered.length)] : MOCK_CASES[0];
   }
@@ -41,7 +40,8 @@ export const generateCaseScenario = async (category: string) => {
         }
       }
     });
-    return JSON.parse(response.text);
+    const text = response.text ?? '{}';
+    return JSON.parse(text);
   } catch (e) {
     return MOCK_CASES[0];
   }
@@ -85,7 +85,8 @@ export const getCourtroomInteraction = async (
         }
       }
     });
-    return JSON.parse(response.text);
+    const text = response.text ?? '{}';
+    return JSON.parse(text);
   } catch (e) {
     return {
       response: "The court acknowledges your submission. (Connection Lost - Fallback activated)",
@@ -126,7 +127,8 @@ export const generateLegalQuiz = async (topic: string) => {
         }
       }
     });
-    return JSON.parse(response.text);
+    const text = response.text ?? '[]';
+    return JSON.parse(text);
   } catch (e) {
     return OFFLINE_QUIZ[topic] || OFFLINE_QUIZ['Constitutional Law'];
   }
